@@ -1,0 +1,13 @@
+pluginManagement {
+    repositories {
+        maven {
+            name = 'LCLPNetwork Maven'
+            url = 'https://repo.lclpnet.work/repository/internal'
+        }
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+rootProject.name = 'maze-lib'
+
