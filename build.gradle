@@ -4,14 +4,23 @@ plugins {
     id 'gradle-build-utils' version '1.2.0'
 }
 
-group = 'work.lclpnet'
-version = '1.0-SNAPSHOT'
+Properties props = loadProperties.call('publish.properties') as Properties
+
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
+
+group = project.maven_group
+version = gitVersion.call()
+archivesBaseName = project.archives_base_name
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
+    implementation 'it.unimi.dsi:fastutil:8.5.9'
+
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }
