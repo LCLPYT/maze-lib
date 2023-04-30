@@ -23,7 +23,7 @@ public class GridMazeGeneratorProvider<T extends Node> implements MazeGeneratorP
     @Override
     public MazeGenerator<T> createGenerator() {
         Graph graph = Graphs.gridGraph(width, height);
-        Maze<T> maze = new SimpleMaze<>(graph, nodeFactory);
+        Maze maze = new SimpleMaze<>(graph, nodeFactory);
         return new BasicMazeGenerator<>(maze, 0);
     }
 }

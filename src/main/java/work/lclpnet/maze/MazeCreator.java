@@ -13,9 +13,9 @@ public final class MazeCreator<T extends Node> {
 
     private final MazeGeneratorProvider<T> provider;
     private final MazeGenerationAlgorithm algorithm;
-    private final MazeOutput<T> output;
+    private final MazeOutput output;
 
-    public MazeCreator(MazeGeneratorProvider<T> provider, MazeGenerationAlgorithm algorithm, MazeOutput<T> output) {
+    public MazeCreator(MazeGeneratorProvider<T> provider, MazeGenerationAlgorithm algorithm, MazeOutput output) {
         this.provider = provider;
         this.algorithm = algorithm;
         this.output = output;
@@ -27,7 +27,7 @@ public final class MazeCreator<T extends Node> {
      */
     public void create(RandomGenerator random) {
         MazeGenerator<T> generator = provider.createGenerator();
-        Maze<T> maze = generator.generateMaze(algorithm, random);
+        Maze maze = generator.generateMaze(algorithm, random);
         output.writeMaze(maze);
     }
 }

@@ -6,7 +6,7 @@ import work.lclpnet.maze.graph.BasicNode;
 import work.lclpnet.maze.graph.Graph;
 import work.lclpnet.maze.graph.Graphs;
 import work.lclpnet.maze.impl.GridMazeGeneratorProvider;
-import work.lclpnet.maze.impl.StringMazeOutput;
+import work.lclpnet.maze.impl.GridMazeStringOutput;
 
 import java.util.Random;
 import java.util.function.IntPredicate;
@@ -39,7 +39,7 @@ class RecursiveBacktrackingMazeGenerationAlgorithmTest {
     void deterministic() {
         var provider = new GridMazeGeneratorProvider<>(GRID_WIDTH, GRID_HEIGHT, i -> new BasicNode());
         var algorithm = RecursiveBacktrackingMazeGenerationAlgorithm.getInstance();
-        var output = new StringMazeOutput(GRID_WIDTH, GRID_HEIGHT);
+        var output = new GridMazeStringOutput(GRID_WIDTH, GRID_HEIGHT);
 
         Random random = new Random(123);
         new MazeCreator<>(provider, algorithm, output).create(random);

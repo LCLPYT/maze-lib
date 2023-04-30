@@ -1,8 +1,6 @@
 package work.lclpnet.maze;
 
-import work.lclpnet.maze.graph.Node;
+public interface MazeOutput {
 
-public interface MazeOutput<T extends Node> {
-
-    void writeMaze(Maze<T> maze);
+    void writeMaze(Maze maze);
 }

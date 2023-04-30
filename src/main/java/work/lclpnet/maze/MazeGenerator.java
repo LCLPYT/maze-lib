@@ -7,5 +7,5 @@ import java.util.random.RandomGenerator;
 
 public interface MazeGenerator<T extends Node> {
 
-    Maze<T> generateMaze(MazeGenerationAlgorithm algorithm, RandomGenerator random);
+    Maze generateMaze(MazeGenerationAlgorithm algorithm, RandomGenerator random);
 }

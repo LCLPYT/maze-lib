@@ -5,12 +5,12 @@ import work.lclpnet.maze.graph.Node;
 
 import javax.annotation.Nullable;
 
-public interface Maze<T extends Node> {
+public interface Maze {
 
     Graph getGraph();
 
     @Nullable
-    T getNode(int i);
+    Node getNode(int i);
 
-    int getNodeId(T node);
+    int getNodeId(Node node);
 }

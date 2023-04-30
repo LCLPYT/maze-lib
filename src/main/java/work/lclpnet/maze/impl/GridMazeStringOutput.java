@@ -2,7 +2,6 @@ package work.lclpnet.maze.impl;
 
 import work.lclpnet.maze.Maze;
 import work.lclpnet.maze.MazeOutput;
-import work.lclpnet.maze.graph.BasicNode;
 import work.lclpnet.maze.graph.Graph;
 
 import java.util.Arrays;
@@ -10,17 +9,17 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.UnaryOperator;
 
-public class StringMazeOutput implements MazeOutput<BasicNode> {
+public class GridMazeStringOutput implements MazeOutput {
 
     private final int width, height;
     private final char wall, empty;
     private String output;
 
-    public StringMazeOutput(int width, int height) {
+    public GridMazeStringOutput(int width, int height) {
         this(width, height, '#', ' ');
     }
 
-    public StringMazeOutput(int width, int height, char wall, char empty) {
+    public GridMazeStringOutput(int width, int height, char wall, char empty) {
         this.width = width;
         this.height = height;
         this.wall = wall;
@@ -28,7 +27,7 @@ public class StringMazeOutput implements MazeOutput<BasicNode> {
     }
 
     @Override
-    public void writeMaze(Maze<BasicNode> maze) {
+    public void writeMaze(Maze maze) {
         // prepare board
         char[][] board = getStringBoard();
         Graph graph = maze.getGraph();

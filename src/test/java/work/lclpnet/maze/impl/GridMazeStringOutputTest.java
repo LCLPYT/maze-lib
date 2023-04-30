@@ -8,14 +8,14 @@ import work.lclpnet.maze.graph.Graphs;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class StringMazeOutputTest {
+class GridMazeStringOutputTest {
 
     @Test
     void writeMaze_all() {
         Graph graph = Graphs.gridGraph(5, 5);
-        Maze<BasicNode> maze = new SimpleMaze<>(graph, i -> new BasicNode());
+        Maze maze = new SimpleMaze<>(graph, i -> new BasicNode());
 
-        var output = new StringMazeOutput(5, 5);
+        var output = new GridMazeStringOutput(5, 5);
         output.writeMaze(maze);
 
         assertEquals("""
@@ -47,9 +47,9 @@ class StringMazeOutputTest {
 
         graph.removeEdge(17, 16);
 
-        Maze<BasicNode> maze = new SimpleMaze<>(graph, i -> new BasicNode());
+        Maze maze = new SimpleMaze<>(graph, i -> new BasicNode());
 
-        var output = new StringMazeOutput(5, 5);
+        var output = new GridMazeStringOutput(5, 5);
         output.writeMaze(maze);
 
         assertEquals("""

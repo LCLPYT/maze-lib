@@ -5,10 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A basic node backed by an {@link ArrayList}.
- * Adding / removing adjacent nodes takes O(n) time.
+ * The same as {@link BasicNode}, but connected nodes are automatically connected back (useful for undirected graphs).
  */
-public class BasicNode implements Node {
+public class BasicBiNode implements Node {
 
     private final List<Node> adj = new ArrayList<>();
 
@@ -22,10 +21,18 @@ public class BasicNode implements Node {
         if (!adj.contains(other)) {
             adj.add(other);
         }
+
+        if (other instanceof BasicBiNode otherBiNode) {
+            otherBiNode.adj.add(this);
+        }
     }
 
     @Override
     public void disconnect(Node other) {
         adj.remove(other);
+
+        if (other instanceof BasicBiNode otherBiNode) {
+            otherBiNode.adj.remove(this);
+        }
     }
 }

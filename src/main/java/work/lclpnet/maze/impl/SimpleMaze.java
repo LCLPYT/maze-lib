@@ -8,15 +8,15 @@ import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMaps;
 import work.lclpnet.maze.Maze;
 import work.lclpnet.maze.graph.Graph;
+import work.lclpnet.maze.graph.Graphs;
 import work.lclpnet.maze.graph.Node;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
-import java.util.function.Function;
 import java.util.function.IntFunction;
 import java.util.stream.IntStream;
 
-public class SimpleMaze<T extends Node> implements Maze<T> {
+public class SimpleMaze<T extends Node> implements Maze {
 
     private final Int2ObjectMap<T> nodes;
     private final Object2IntMap<T> ids;
@@ -41,9 +41,22 @@ public class SimpleMaze<T extends Node> implements Maze<T> {
         }
 
         this.ids = Object2IntMaps.unmodifiable(ids);
+
+        // connect nodes
+        for (Node node : this.nodes.values()) {
+            int i = getNodeId(node);
+
+            for (int j : graph.getAdjacent(i)) {
+                Node other = getNode(j);
+                if (other == null) continue;
+
+                node.connect(other);
+                other.connect(node);
+            }
+        }
     }
 
-    public SimpleMaze(Collection<T> values, Function<Integer, Graph> graphFactory) {
+    public SimpleMaze(Collection<T> values, IntFunction<Graph> graphFactory) {
         final int size = values.size();
 
         // build nodes
@@ -54,6 +67,7 @@ public class SimpleMaze<T extends Node> implements Maze<T> {
 
         // build ids
         var ids = new Object2IntArrayMap<T>(size);
+        ids.defaultReturnValue(-1);
 
         for (var entry : this.nodes.int2ObjectEntrySet()) {
             ids.put(entry.getValue(), entry.getIntKey());
@@ -67,12 +81,8 @@ public class SimpleMaze<T extends Node> implements Maze<T> {
         for (T node : values) {
             final int i = ids.getInt(node);
 
-            var iterator = node.getAdjacent();
-
-            while (iterator.hasNext()) {
-                Node other = iterator.next();
+            for (Node other : node.getAdjacent()) {
                 int j = ids.getInt(other);
-
                 this.graph.addEdge(i, j);
             }
         }
@@ -80,17 +90,36 @@ public class SimpleMaze<T extends Node> implements Maze<T> {
 
     @Nullable
     @Override
-    public T getNode(int i) {
+    public Node getNode(int i) {
         return nodes.get(i);
     }
 
     @Override
-    public int getNodeId(T node) {
+    public int getNodeId(Node node) {
         return ids.getInt(node);
     }
 
     @Override
     public Graph getGraph() {
         return graph;
+    }
+
+    public Graph createPassageGraph() {
+        Graph inverted = Graphs.undirected(graph.getNodeCount());
+
+        for (int i : graph.iterateNodes()) {
+            Node node = getNode(i);
+            if (node == null) continue;
+
+            for (Node adj : node.getAdjacent()) {
+                int j = getNodeId(adj);
+
+                if (!graph.hasEdge(i, j)) {
+                    inverted.addEdge(i, j);
+                }
+            }
+        }
+
+        return inverted;
     }
 }
